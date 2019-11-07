@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
+#include<conio.h>
 using namespace std;
-
 
 string word, filename;
 ifstream infile;
@@ -11,48 +11,56 @@ void account_nontrivial(int pin){
 	iofile.open("Amardeep.txt");
 	filename="Amardeep.txt";
 	}
-	if(pin==4321){
+	else if(pin==4321){
 	iofile.open("Dimple.txt");
 	filename="Dimple.txt";
 	}
-	if(pin==5176){
+	else if(pin==5176){
 	iofile.open("Himanshu.txt");
 	filename="Himanshu.txt";
 	}
-	if(pin==5378){
+	else if(pin==5378){
 	iofile.open("Sharad.txt");	
 	filename="Sharad.txt";
 	}
-	if(pin==4001){
+	else if(pin==4001){
 	iofile.open("Yash.txt");
 	filename="Yash.txt";
+	}
+	else{
+		cout<<"No Account exist for the entered PIN";
+		exit(0);
 	}
 }
 
 void account_trivial(int pin){
 	if(pin==2345){
-	iofile.open("Amardeep.txt");
+	infile.open("Amardeep.txt");
 	filename="Amardeep.txt";
 	}
-	if(pin==1234){
-	iofile.open("Dimple.txt");
+	else if(pin==1234){
+	infile.open("Dimple.txt");
 	filename="Dimple.txt";
 	}
-	if(pin==6715){
-	iofile.open("Himanshu.txt");
+	else if(pin==6715){
+	infile.open("Himanshu.txt");
 	filename="Himanshu.txt";
 	}
-	if(pin==8735){
-	iofile.open("Sharad.txt");	
+	else if(pin==8735){
+	infile.open("Sharad.txt");	
 	filename="Sharad.txt";
 	}
-	if(pin==1004){
-	iofile.open("Yash.txt");
+	else if(pin==1004){
+	infile.open("Yash.txt");
 	filename="Yash.txt";
+	}
+	else{
+		cout<<"No Account exist for the entered PIN";
+		exit(0);
 	}
 }
 
-void balance_inquary(int pin){	
+void balance_inquiry(int pin){	
 	account_trivial(pin);
 	
 	while (infile >> word){ 
@@ -113,9 +121,24 @@ void withdrawal(int pin){
 }
 
 void money_depoist(int pin){
-	int temp1, temp2;
+	int iris_pin, temp1, temp2;
 	string flag;
-	account_trivial(pin);
+	
+	cout<<"Enter your IRIS PIN :-- ";
+	cin>>iris_pin;
+	
+	string s=to_string(iris_pin);
+	if(s.length()!=4){
+		cout<<"wrong PIN entered";
+		exit(0);
+	}
+	
+	if(s.length()==4){
+		goto s2;
+	}
+	
+	s2:
+	account_nontrivial(iris_pin);
 	
 	cout<<"Enter the amount to deposit :-- ";
 	cin>>temp1;
@@ -127,7 +150,7 @@ void money_depoist(int pin){
 	}
 	temp2=stoi(flag)+temp1;
 	iofile.close();
-	account_trivial(pin);
+	account_nontrivial(iris_pin);
 	
 	ofstream out("temp.txt", ios::out);
 	while (iofile >> word){ 	
@@ -149,12 +172,12 @@ void money_depoist(int pin){
 
 void change_pin(int pin){
 	int iris_pin, temp1;
-	string flag;
+	string flag, s;
 	
 	cout<<"Enter your IRIS PIN :-- ";
 	cin>>iris_pin;
 	
-	string s=to_string(iris_pin);
+	s=to_string(iris_pin);
 	if(s.length()!=4){
 		cout<<"wrong PIN entered";
 		exit(0);
@@ -166,16 +189,21 @@ void change_pin(int pin){
 	
 	s2:
 	account_nontrivial(iris_pin);
-	cout<<"Enter Your New Fingerprint_PIN :-- ";
+	cout<<"Enter Your New Pin :-- ";
 	cin>>temp1;
+	s=to_string(temp1);
+	if(s.length()!=4){
+		cout<<endl<<"wrong PIN entered";
+		exit(0);
+	}
 	
 	ofstream out("temp.txt", ios::out);
 	while (iofile >> word){ 	
-		if(word.substr(0,15)!="Fingerprint_PIN"){
+		if(word.substr(0,3)!="Pin"){
         	out<<word<<endl;
 		}
 	}
-	out<<"Fingerprint_PIN="<<temp1;
+	out<<"Pin="<<temp1;
 	
 	out.close();
 	iofile.close();
@@ -184,16 +212,184 @@ void change_pin(int pin){
 	strcpy(oldname, filename.c_str());
 	remove(oldname);
     rename("temp.txt", oldname);
-    cout<<endl<<"Fingerprint PIN changed successfully";
-}
-
-void mini_statement(int pin){
+    cout<<endl<<"PIN changed successfully";
 }
 
 void add_aadhar_card(int pin){
+	int iris_pin;
+	long long int temp1;
+	string flag, s;
+	
+	cout<<"Enter your IRIS PIN :-- ";
+	cin>>iris_pin;
+	
+	s=to_string(iris_pin);
+	if(s.length()!=4){
+		cout<<"wrong PIN entered";
+		exit(0);
+	}
+	
+	if(s.length()==4){
+		goto s2;
+	}
+	
+	s2:
+	account_nontrivial(iris_pin);
+	while (iofile >> word){ 	
+		if(word.substr(0,6)=="Aadhar"){
+        	flag= word.substr(7);  
+		}
+	}
+	if(flag.length()==12){
+		cout<<endl<<"Aadhar already exist, Please visit your branch to update your aadhar";
+		exit(0);
+	}
+	
+	cout<<"Enter Your Aadhar Number :-- ";
+	cin>>temp1;
+	s=to_string(temp1);
+	if(s.length()!=12){
+		cout<<endl<<"wrong Aadhar number entered";
+		exit(0);
+	}
+	iofile.close();
+	account_nontrivial(iris_pin);
+	
+	ofstream out("temp.txt", ios::out);
+	while (iofile >> word){ 	
+		if(word.substr(0,6)!="Aadhar"){
+        	out<<word<<endl;
+		}
+	}
+	out<<"Aadhar="<<temp1;
+	
+	out.close();
+	iofile.close();
+	
+	char oldname[25];
+	strcpy(oldname, filename.c_str());
+	remove(oldname);
+    rename("temp.txt", oldname);
+    cout<<endl<<"Aadhar added successfully";
+}
+
+void transfer_money_to_other_account(int pin){	
+	int iris_pin, amount, temp;
+	string s, acc, ifsc, flag;
+	
+	cout<<"Enter your IRIS PIN :-- ";
+	cin>>iris_pin;
+	
+	s=to_string(iris_pin);
+	if(s.length()!=4){
+		cout<<"wrong PIN entered";
+		exit(0);
+	}
+	
+	if(s.length()==4){
+		goto s2;
+	}
+	
+	s2:
+	account_nontrivial(iris_pin);
+	while (iofile >> word){ 	
+		if(word.substr(0,7)=="Balance"){
+        	flag= word.substr(8);  
+		}
+	}
+	iofile.close();
+	account_nontrivial(iris_pin);
+	
+	cout<<"Enter the Account number to whom you want to tranfer money :-- ";
+	cin>>acc;
+	cout<<"Enter the IFSC code :-- ";
+	cin>>ifsc;
+	cout<<"Enter the amount to tranfer :-- ";
+	cin>>amount;
+	
+	temp=stoi(flag);
+	if(amount>temp){
+		cout<<"\nYou do not have sufficient balance in your account";
+		exit(0);
+	}
+	
+	ofstream out("temp.txt", ios::out);
+	while (iofile >> word){ 	
+		if(word.substr(0,7)!="Balance"){
+        	out<<word<<endl;
+		}
+	}
+	out<<"Balance="<<(temp-amount);
+	
+	out.close();
+	iofile.close();
+	
+	char oldname[25];
+	strcpy(oldname, filename.c_str());
+	remove(oldname);
+    rename("temp.txt", oldname);
+    cout<<"\nAmount tranfered successfully";
+}
+
+void mini_statement(int pin){	
+	queue<int> q;
+	
 }
 
 void add_PAN(int pin){
+	int iris_pin;
+	string flag, s, temp;
+	
+	cout<<"Enter your IRIS PIN :-- ";
+	cin>>iris_pin;
+	
+	s=to_string(iris_pin);
+	if(s.length()!=4){
+		cout<<"wrong PIN entered";
+		exit(0);
+	}
+	
+	if(s.length()==4){
+		goto s2;
+	}
+	
+	s2:
+	account_nontrivial(iris_pin);
+	while (iofile >> word){ 	
+		if(word.substr(0,3)=="Pan"){
+        	flag= word.substr(4);  
+		}
+	}
+	if(flag.length()==10){
+		cout<<endl<<"Pan already exist, Please visit your branch to update your Pan";
+		exit(0);
+	}
+	
+	cout<<"Enter Your Pan Number :-- ";
+	cin>>temp;
+	if(temp.length()!=10){
+		cout<<endl<<"wrong Pan number entered";
+		exit(0);
+	}
+	iofile.close();
+	account_nontrivial(iris_pin);
+	
+	ofstream out("temp.txt", ios::out);
+	while (iofile >> word){ 	
+		if(word.substr(0,3)!="Pan"){
+        	out<<word<<endl;
+		}
+	}
+	out<<"Pan="<<temp;
+	
+	out.close();
+	iofile.close();
+	
+	char oldname[25];
+	strcpy(oldname, filename.c_str());
+	remove(oldname);
+    rename("temp.txt", oldname);
+    cout<<endl<<"Pan added successfully";
 }
 
 void fordelay(int j)
@@ -213,6 +409,7 @@ int main(){
 	if(s.length()!=4){
 		cout<<"wrong PIN entered";
 		fordelay(1000000000);
+		exit(0);
 	}
 	
 	if(s.length()==4){
@@ -227,19 +424,20 @@ int main(){
 	cout<<" 1. Balance inquary\n";
 	cout<<" 2. Withdrawal\n";
 	cout<<" 3. Money depoist\n";
-	cout<<" 4. Change fingerprint pin\n";
+	cout<<" 4. Change pin\n";
 	cout<<" 5. Mini statement\n";
 	cout<<" 6. Add aadhar card\n";
 	cout<<" 7. Add PAN\n";
+	cout<<" 8. Transfer money to other account";
 	
-	cout<<"\nEnter your choice: ";
+	cout<<"\n\nEnter your choice: ";
 	cin>>choice;
 	
 	
 	
 	switch(choice){
 		case 1: 
-			balance_inquary(fingerprint_pin);
+			balance_inquiry(fingerprint_pin);
 			break;
 			
 		case 2:
@@ -266,7 +464,15 @@ int main(){
 			add_PAN(fingerprint_pin);
 			break;
 			
+		case 8:
+			transfer_money_to_other_account(fingerprint_pin);
+			break;
+			
+		default:
+			cout<<endl<<"wrong choice entered, Please try again";
+			
 	}
 	
 	return 0;
+	getch();
 }
