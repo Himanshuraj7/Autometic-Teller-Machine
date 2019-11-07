@@ -1,0 +1,6 @@
+Iris_PIN=5378
+Aadhar=674567456745
+Pan=AAAPL1234C
+Balance=935
+Fingerprint_PIN=8735
+Pin=3333

@@ -1,0 +1,6 @@
+Fingerprint_PIN=1004
+Iris_PIN=4001
+Balance=4824
+Pin=3333
+Aadhar=
+Pan=

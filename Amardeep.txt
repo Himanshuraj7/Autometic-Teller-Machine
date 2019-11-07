@@ -1,0 +1,6 @@
+Iris_PIN=5432
+Aadhar=674567456745
+Pan=AAAPL1234C
+Balance=899
+Fingerprint_PIN=2345
+Pin=3333
